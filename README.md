@@ -21,7 +21,7 @@ docker compose up --build
 - API health check: http://localhost:5000/api/health
 - Stop: `Ctrl+C`, then `docker compose down`
 
-## Look for these lines, this will tell you that you are connected to the database successfully:
+## Look for these lines in the terminal, this will tell you that you are connected to the database successfully:
 
 hustlehub-backend  | [db] Connected to Azure Cosmos DB (MongoDB API), database: hustlehub
 hustlehub-backend  | [server] HustleHub+ API listening on port 5000 (production)
@@ -36,12 +36,12 @@ Terminal 1:
 npm install
 npm run dev
 ```
-## Look for these lines, this will tell you that you are connected to the database successfully:
+## Look for these lines in the terminal, this will tell you that you are connected to the database successfully:
 
 [backend] [db] Connected to Azure Cosmos DB (MongoDB API), database: hustlehub
 [backend] [server] HustleHub+ API listening on port 5000 (development)
 
-## If you don't see it then you have to add you PC IP address to Azure for the app to work:
+## If you don't see those lines then you have to add you PC IP address to Azure for the app to work:
 Add your IP in the Azure portal:
 
 1. Open your hustlehub-dev cluster in Azure.
@@ -66,5 +66,5 @@ You will see it in the terminal, copy the port in a browser
 | GET | `/api/freelancer/home` | freelancer only |
 | GET | `/api/health` | public, reports database status |
 
-Send the token as `Authorization: Bearer <token>`.
+
 
