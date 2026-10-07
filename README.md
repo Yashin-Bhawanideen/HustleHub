@@ -27,7 +27,7 @@ hustlehub-backend  | [db] Connected to Azure Cosmos DB (MongoDB API), database: 
 hustlehub-backend  | [server] HustleHub+ API listening on port 5000 (production)
 
 ### Option B: Without Docker (development)
-Use one terminals. On Windows, use **Command Prompt** if PowerShell blocks npm scripts.
+Use one terminal. On Windows, use **Command Prompt** if PowerShell blocks npm scripts. This runs both the backend and frontend.
 
 Terminal 1:
 ```
