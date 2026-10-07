@@ -21,7 +21,7 @@ docker compose up --build
 - API health check: http://localhost:5000/api/health
 - Stop: `Ctrl+C`, then `docker compose down`
 
-## Look for these lines in the terminal, this will tell you that you are connected to the database successfully:
+Look for these lines in the terminal, this will tell you that you are connected to the database successfully:
 
 hustlehub-backend  | [db] Connected to Azure Cosmos DB (MongoDB API), database: hustlehub
 hustlehub-backend  | [server] HustleHub+ API listening on port 5000 (production)
@@ -36,7 +36,7 @@ Terminal 1:
 npm install
 npm run dev
 ```
-## Look for these lines in the terminal, this will tell you that you are connected to the database successfully:
+Look for these lines in the terminal, this will tell you that you are connected to the database successfully:
 
 [backend] [db] Connected to Azure Cosmos DB (MongoDB API), database: hustlehub
 [backend] [server] HustleHub+ API listening on port 5000 (development)
