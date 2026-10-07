@@ -50,7 +50,7 @@ Add your IP in the Azure portal:
 4. Click Add current client IP address (it fills in your IP), then Save.
 Wait about a minute for it to apply.
 
-## I everything is fine open the app using this port:
+## If everything is fine open the app using this port:
 http://localhost:3000/
 
 You will see it in the terminal, copy the port in a browser
