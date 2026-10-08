@@ -62,10 +62,10 @@ Look for these lines in the terminal, this will tell you that you are connected 
 [backend] [server] HustleHub+ API listening on port 5000 (development)
 
 ## Watch this video for the start up of the app:
-https://youtu.be/beebRInAWko
+1. https://youtu.be/beebRInAWko
 
 ## Sector 1 & Sector 2 working:
-https://youtu.be/kq42v5-S5uM
+2. https://youtu.be/kq42v5-S5uM
 
 ## If everything is fine open the app using this port:
 http://localhost:3000/
