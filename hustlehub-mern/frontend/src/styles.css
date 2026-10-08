@@ -1,0 +1,512 @@
+:root {
+  --ink: #16202e;
+  --paper: #f3f5f9;
+  --white: #ffffff;
+  --line: #d4d9e3;
+  --muted: #566073;
+  --danger: #b42318;
+  --ok: #067647;
+
+  /* Role themes: the whole page re-colours when the role changes. */
+  --client: #2347d9;
+  --on-client: #ffffff;
+  --freelancer: #f0a202;
+  --on-freelancer: #16202e;
+
+  --accent: var(--client);
+  --on-accent: var(--on-client);
+
+  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+}
+
+[data-role='client'] { --accent: var(--client); --on-accent: var(--on-client); }
+[data-role='freelancer'] { --accent: var(--freelancer); --on-accent: var(--on-freelancer); }
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root { min-height: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+h1 { font-family: var(--font-display); margin: 0; }
+
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+/* ---------- Auth page ---------- */
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+}
+
+.auth-intro {
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: clamp(1.5rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.brand {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.25rem;
+}
+
+.auth-intro h1 {
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  max-width: 11ch;
+}
+
+.role-picker { border: 0; margin: 0; padding: 0; display: grid; gap: 0.75rem; max-width: 26rem; }
+.role-picker legend { padding: 0; margin-bottom: 0.75rem; font-weight: 500; }
+
+.role-option {
+  position: relative;
+  display: grid;
+  gap: 0.15rem;
+  padding: 1rem 1.1rem;
+  border: 2px solid currentColor;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.role-option input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.role-option:focus-within { outline: 3px solid currentColor; outline-offset: 3px; }
+.role-title { font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; }
+.role-text { font-size: 0.95rem; opacity: 0.9; }
+
+/* Selected option is inverted: fills with the text colour. */
+.role-option.selected { background: var(--on-accent); color: var(--accent); }
+
+.auth-form-wrap { display: flex; align-items: center; justify-content: center; padding: clamp(1.5rem, 4vw, 3rem); }
+
+.auth-card { width: 100%; max-width: 26rem; }
+
+.mode-switch { display: flex; border-bottom: 2px solid var(--line); margin-bottom: 1.5rem; }
+.mode-switch button {
+  flex: 1;
+  background: none;
+  border: 0;
+  border-bottom: 4px solid transparent;
+  margin-bottom: -2px;
+  padding: 0.75rem 0.5rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+}
+.mode-switch button.active { color: var(--ink); border-bottom-color: var(--accent); }
+
+.field { margin-bottom: 1.1rem; }
+.field label { display: block; font-weight: 500; margin-bottom: 0.35rem; }
+.field input {
+  width: 100%;
+  font: inherit;
+  padding: 0.7rem 0.8rem;
+  border: 1.5px solid var(--muted);
+  border-radius: 6px;
+  background: var(--white);
+  color: var(--ink);
+}
+.hint { margin: 0.35rem 0 0; font-size: 0.875rem; color: var(--muted); }
+
+.message { margin: 0 0 1rem; padding: 0.7rem 0.85rem; border-radius: 6px; font-size: 0.95rem; }
+.message.error { background: #fdecea; color: var(--danger); border: 1px solid #f4b8b2; }
+.message.success { background: #e6f6ed; color: var(--ok); border: 1px solid #a8dcc0; }
+
+.submit {
+  width: 100%;
+  font: inherit;
+  font-weight: 600;
+  padding: 0.85rem 1rem;
+  border: 0;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--on-accent);
+  cursor: pointer;
+}
+.submit:disabled { opacity: 0.6; cursor: wait; }
+
+/* ---------- Role landing pages ---------- */
+.center-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.role-client { background: var(--client); color: var(--on-client); }
+.role-freelancer { background: var(--freelancer); color: var(--on-freelancer); }
+
+.success-message {
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 800;
+  max-width: 24ch;
+  line-height: 1.15;
+}
+
+.link-button {
+  background: none;
+  border: 0;
+  padding: 0.25rem;
+  font: inherit;
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.role-client .link-button:focus-visible { outline-color: var(--on-client); }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 800px) {
+  .auth-page { grid-template-columns: 1fr; }
+  .auth-intro { gap: 1.25rem; padding-block: 1.75rem; }
+  .auth-intro h1 { max-width: none; font-size: clamp(2rem, 9vw, 3rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+/* ---------- Freelancer dashboard ---------- */
+
+.freelancer-dashboard {
+  min-height: 100vh;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.dashboard-header {
+  width: min(100%, 1100px);
+  margin: 0 auto 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--line);
+}
+
+.dashboard-header h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+}
+
+.dashboard-header p {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+}
+
+.dashboard-header .link-button {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+
+/* ---------- Gig dashboard ---------- */
+
+.gig-dashboard {
+  width: min(100%, 1100px);
+  margin: 0 auto;
+}
+
+.gig-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.gig-section-header h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+}
+
+.gig-section-header p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+}
+
+
+/* ---------- Buttons ---------- */
+
+.gig-section-header button,
+.gig-form-actions button,
+.gig-card-actions button {
+  font: inherit;
+  font-weight: 600;
+  border: 0;
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.1s ease;
+}
+
+.gig-section-header button {
+  background: var(--freelancer);
+  color: var(--on-freelancer);
+  white-space: nowrap;
+}
+
+.gig-section-header button:hover,
+.gig-form-actions button:first-child:hover {
+  opacity: 0.88;
+}
+
+.gig-section-header button:active,
+.gig-form-actions button:active,
+.gig-card-actions button:active {
+  transform: translateY(1px);
+}
+
+.gig-section-header button:disabled,
+.gig-form-actions button:disabled,
+.gig-card-actions button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+
+/* ---------- Gig form ---------- */
+
+.gig-form-section {
+  margin-bottom: 2.5rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--freelancer);
+  border-radius: 6px;
+}
+
+.gig-form-section h2 {
+  margin: 0 0 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+}
+
+.gig-form {
+  display: grid;
+  gap: 1.1rem;
+  max-width: 700px;
+}
+
+.gig-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.gig-form input,
+.gig-form textarea {
+  width: 100%;
+  font: inherit;
+  padding: 0.75rem 0.8rem;
+  border: 1.5px solid var(--muted);
+  border-radius: 6px;
+  background: var(--white);
+  color: var(--ink);
+}
+
+.gig-form textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.gig-form input:focus,
+.gig-form textarea:focus {
+  border-color: var(--freelancer);
+  outline: 3px solid rgba(240, 162, 2, 0.2);
+}
+
+.gig-form input:disabled,
+.gig-form textarea:disabled {
+  background: var(--paper);
+  cursor: wait;
+}
+
+
+/* ---------- Form messages ---------- */
+
+.form-error {
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border-radius: 6px;
+  background: #fdecea;
+  color: var(--danger);
+  border: 1px solid #f4b8b2;
+  font-size: 0.95rem;
+}
+
+.gig-form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.gig-form-actions button:first-child {
+  background: var(--freelancer);
+  color: var(--on-freelancer);
+}
+
+.gig-form-actions button:last-child {
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+.gig-form-actions button:last-child:hover {
+  background: var(--line);
+}
+
+
+/* ---------- Gig list ---------- */
+
+.gig-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+
+/* ---------- Gig card ---------- */
+
+.gig-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 250px;
+  padding: 1.5rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(22, 32, 46, 0.05);
+}
+
+.gig-card-content h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.gig-name {
+  margin: 0.35rem 0 1rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.gig-description {
+  margin: 0 0 1.25rem;
+  color: var(--ink);
+  white-space: pre-wrap;
+}
+
+.gig-amount {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--freelancer);
+}
+
+.gig-card-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.gig-card-actions button:first-child {
+  background: var(--freelancer);
+  color: var(--on-freelancer);
+}
+
+.gig-card-actions button:last-child {
+  background: var(--white);
+  color: var(--danger);
+  border: 1px solid #e0aaa5;
+}
+
+.gig-card-actions button:last-child:hover {
+  background: #fdecea;
+}
+
+
+/* ---------- Freelancer dashboard mobile ---------- */
+
+@media (max-width: 800px) {
+  .freelancer-dashboard {
+    padding: 1.25rem;
+  }
+
+  .dashboard-header {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
+
+  .dashboard-header .link-button {
+    padding-left: 0;
+  }
+
+  .gig-section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .gig-section-header button {
+    width: 100%;
+  }
+
+  .gig-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .gig-form-actions {
+    flex-direction: column;
+  }
+
+  .gig-form-actions button {
+    width: 100%;
+  }
+
+  .gig-card {
+    padding: 1.25rem;
+  }
+
+  .gig-card-actions {
+    flex-direction: column;
+  }
+
+  .gig-card-actions button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,21 @@
+services:
+  backend:
+    build: ./backend
+    container_name: hustlehub-backend
+    env_file:
+      - ./backend/.env        # MONGODB_URI, JWT_SECRET etc. are read from here at runtime
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: hustlehub-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+    restart: unless-stopped
