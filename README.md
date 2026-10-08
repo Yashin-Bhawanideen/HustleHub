@@ -27,28 +27,45 @@ hustlehub-backend  | [db] Connected to Azure Cosmos DB (MongoDB API), database: 
 hustlehub-backend  | [server] HustleHub+ API listening on port 5000 (production)
 
 ### Option B: Without Docker (development)
-Use one terminal. On Windows, use **Command Prompt** if PowerShell blocks npm scripts. This runs both the backend and frontend.
+Use 3 terminals. On Windows, use **Command Prompt** if PowerShell blocks npm scripts. This runs both the backend and frontend.
 
 Terminal 1:
 ```
+(In the path: C:\User\hustlehub-mern\backend)
+
+cd backend
+npm install
+
+```
+(leave open)
+
+Terminal 2:
+```
+(In the path: C:\User\hustlehub-mern\frontend)
+
+cd frontend
+npm install
+
+```
+(leave open)
+
+Terminal 3:
+```
 (In the path: C:\User\hustlehub-mern)
 
-npm install
 npm run dev
 ```
+
 Look for these lines in the terminal, this will tell you that you are connected to the database successfully:
 
 [backend] [db] Connected to Azure Cosmos DB (MongoDB API), database: hustlehub
 [backend] [server] HustleHub+ API listening on port 5000 (development)
 
-## If you don't see those lines then you have to add you PC IP address to Azure for the app to work:
-Add your IP in the Azure portal:
+## Watch this video for the start up of the app:
+1. https://youtu.be/beebRInAWko
 
-1. Open your hustlehub-dev cluster in Azure.
-2. Go to Settings → Networking.
-3. Make sure public access is enabled.
-4. Click Add current client IP address (it fills in your IP), then Save.
-Wait about a minute for it to apply.
+## Sector 1 & Sector 2 working:
+2. https://youtu.be/kq42v5-S5uM
 
 ## If everything is fine open the app using this port:
 http://localhost:3000/
