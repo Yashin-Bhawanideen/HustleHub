@@ -4,6 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
+const gigRoutes = require('./routes/gigRoutes');
 
 const config = require('./config/env');
 const authRoutes = require('./routes/authRoutes');
@@ -37,7 +38,7 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api', roleRoutes);
-
+app.use('/api/gigs', gigRoutes);
 app.use((req, res) => res.status(404).json({ success: false, message: 'Route not found.' }));
 app.use(errorHandler);
 

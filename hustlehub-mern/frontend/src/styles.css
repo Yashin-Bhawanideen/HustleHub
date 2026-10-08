@@ -187,3 +187,326 @@ h1 { font-family: var(--font-display); margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+/* ---------- Freelancer dashboard ---------- */
+
+.freelancer-dashboard {
+  min-height: 100vh;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.dashboard-header {
+  width: min(100%, 1100px);
+  margin: 0 auto 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--line);
+}
+
+.dashboard-header h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+}
+
+.dashboard-header p {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+}
+
+.dashboard-header .link-button {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+
+/* ---------- Gig dashboard ---------- */
+
+.gig-dashboard {
+  width: min(100%, 1100px);
+  margin: 0 auto;
+}
+
+.gig-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.gig-section-header h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+}
+
+.gig-section-header p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+}
+
+
+/* ---------- Buttons ---------- */
+
+.gig-section-header button,
+.gig-form-actions button,
+.gig-card-actions button {
+  font: inherit;
+  font-weight: 600;
+  border: 0;
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.1s ease;
+}
+
+.gig-section-header button {
+  background: var(--freelancer);
+  color: var(--on-freelancer);
+  white-space: nowrap;
+}
+
+.gig-section-header button:hover,
+.gig-form-actions button:first-child:hover {
+  opacity: 0.88;
+}
+
+.gig-section-header button:active,
+.gig-form-actions button:active,
+.gig-card-actions button:active {
+  transform: translateY(1px);
+}
+
+.gig-section-header button:disabled,
+.gig-form-actions button:disabled,
+.gig-card-actions button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+
+/* ---------- Gig form ---------- */
+
+.gig-form-section {
+  margin-bottom: 2.5rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--freelancer);
+  border-radius: 6px;
+}
+
+.gig-form-section h2 {
+  margin: 0 0 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+}
+
+.gig-form {
+  display: grid;
+  gap: 1.1rem;
+  max-width: 700px;
+}
+
+.gig-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.gig-form input,
+.gig-form textarea {
+  width: 100%;
+  font: inherit;
+  padding: 0.75rem 0.8rem;
+  border: 1.5px solid var(--muted);
+  border-radius: 6px;
+  background: var(--white);
+  color: var(--ink);
+}
+
+.gig-form textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.gig-form input:focus,
+.gig-form textarea:focus {
+  border-color: var(--freelancer);
+  outline: 3px solid rgba(240, 162, 2, 0.2);
+}
+
+.gig-form input:disabled,
+.gig-form textarea:disabled {
+  background: var(--paper);
+  cursor: wait;
+}
+
+
+/* ---------- Form messages ---------- */
+
+.form-error {
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border-radius: 6px;
+  background: #fdecea;
+  color: var(--danger);
+  border: 1px solid #f4b8b2;
+  font-size: 0.95rem;
+}
+
+.gig-form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.gig-form-actions button:first-child {
+  background: var(--freelancer);
+  color: var(--on-freelancer);
+}
+
+.gig-form-actions button:last-child {
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+.gig-form-actions button:last-child:hover {
+  background: var(--line);
+}
+
+
+/* ---------- Gig list ---------- */
+
+.gig-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+
+/* ---------- Gig card ---------- */
+
+.gig-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 250px;
+  padding: 1.5rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(22, 32, 46, 0.05);
+}
+
+.gig-card-content h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.gig-name {
+  margin: 0.35rem 0 1rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.gig-description {
+  margin: 0 0 1.25rem;
+  color: var(--ink);
+  white-space: pre-wrap;
+}
+
+.gig-amount {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--freelancer);
+}
+
+.gig-card-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.gig-card-actions button:first-child {
+  background: var(--freelancer);
+  color: var(--on-freelancer);
+}
+
+.gig-card-actions button:last-child {
+  background: var(--white);
+  color: var(--danger);
+  border: 1px solid #e0aaa5;
+}
+
+.gig-card-actions button:last-child:hover {
+  background: #fdecea;
+}
+
+
+/* ---------- Freelancer dashboard mobile ---------- */
+
+@media (max-width: 800px) {
+  .freelancer-dashboard {
+    padding: 1.25rem;
+  }
+
+  .dashboard-header {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
+
+  .dashboard-header .link-button {
+    padding-left: 0;
+  }
+
+  .gig-section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .gig-section-header button {
+    width: 100%;
+  }
+
+  .gig-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .gig-form-actions {
+    flex-direction: column;
+  }
+
+  .gig-form-actions button {
+    width: 100%;
+  }
+
+  .gig-card {
+    padding: 1.25rem;
+  }
+
+  .gig-card-actions {
+    flex-direction: column;
+  }
+
+  .gig-card-actions button {
+    width: 100%;
+  }
+}
