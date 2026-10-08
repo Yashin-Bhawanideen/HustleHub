@@ -5,10 +5,7 @@ node_modules/
 dist/
 build/
 
-# Secrets: never upload these
-backend/.env
-backend/.env.*
-!backend/.env.example
+
 
 # Logs
 *.log
