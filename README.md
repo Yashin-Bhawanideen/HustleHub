@@ -64,6 +64,9 @@ Look for these lines in the terminal, this will tell you that you are connected 
 ## Watch this video for the start up of the app:
 https://youtu.be/beebRInAWko
 
+## Scetor 1 & Sector 2 working:
+https://youtu.be/kq42v5-S5uM
+
 ## If everything is fine open the app using this port:
 http://localhost:3000/
 
