@@ -77,7 +77,63 @@ async function getMyBookings(req, res, next) {
     }
 }
 
+async function getFreelancerBookings(req, res, next){
+    try {
+        const bookings = await Booking.find({ freelancer: req.user._id})
+            .populate('gig', 'name title description amount')
+            .populate('client', 'name email')
+            .sort({ createdAt: -1 });
+
+            return res.status(200).json({
+            success: true,
+            bookings
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function updateBookingStatus(req, res, next){
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        if (!['Accepted', 'Rejected'].includes(status)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid status. Must be Accepted or Rejected.'
+            });
+        }
+
+        const booking = await Booking.findOne({_id: id, freelancer: req.user._id});
+
+        if (!booking) {
+            return res.status(404).json({
+                success: false,
+                message: 'Booking not found.'
+            });
+        }
+
+
+        booking.status = status;
+        await booking.save();
+
+        return res.status (200).json({
+            success: true,
+            message: 'Booking updated successfully.',
+            booking
+        });
+
+    } catch (err) {
+        next(err);
+
+    }
+
+}
+
 module.exports = {
     createBooking,
-    getMyBookings
+    getMyBookings,
+    getFreelancerBookings,
+    updateBookingStatus
 };

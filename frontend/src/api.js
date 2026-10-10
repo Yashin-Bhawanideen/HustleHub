@@ -70,6 +70,16 @@ export const api = {
   me: () =>
     request('/auth/me'),
 
+  // Freelancers
+  getFreelancerBookings: () =>
+    request('/freelancer/bookings'),
+
+  updateBookingStatus: (id, status) =>
+    request('/freelancer/bookings/' + id + '/status', {
+      method: 'PATCH',
+      body: { status }
+    }),
+
   // Gigs
   createGig: (payload) =>
     request('/gigs', {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'; //
 import { useAuth } from '../context/AuthContext.jsx';
 import { api } from '../api.js';
 import GigForm from '../components/GigForm.jsx';
@@ -114,6 +115,9 @@ export default function FreelancerHome() {
           </p>
         </div>
 
+      <div>
+        <Link to="/freelancer/bookings">View Bookings</Link>
+
         <button
           type="button"
           className="link-button"
@@ -121,6 +125,8 @@ export default function FreelancerHome() {
         >
           Log out
         </button>
+      </div>
+        
       </header>
 
       <section className="gig-dashboard">

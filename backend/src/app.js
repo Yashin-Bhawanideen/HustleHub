@@ -11,6 +11,7 @@ const config = require('./config/env');
 const authRoutes = require('./routes/authRoutes');
 const roleRoutes = require('./routes/roleRoutes');
 const errorHandler = require('./middleware/errorHandler');
+const freelancerBookingRoutes = require('./routes/freelancerBookingRoutes');
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use('/api', roleRoutes);
 app.use('/api/gigs', gigRoutes);
 app.use('/api/client', clientRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/freelancer/bookings', freelancerBookingRoutes);
 app.use((req, res) => res.status(404).json({ success: false, message: 'Route not found.' }));
 app.use(errorHandler);
 
