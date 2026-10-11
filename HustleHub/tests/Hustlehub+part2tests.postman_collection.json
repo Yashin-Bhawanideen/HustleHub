@@ -616,7 +616,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  ""
+                  "\r\npm.test(\"Returns 404 for another freelancer's gig\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\npm.test(\"Response is JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\npm.test(\"Request is rejected\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.success).to.eql(false);\r\n});\r\n\r\npm.test(\"Returns correct error message\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.message).to.eql(\"Gig not found.\");\r\n});\r\n"
                 ]
               }
             }
@@ -683,6 +683,86 @@
                 }
               }
             },
+            "url": {
+              "raw": "{{baseUrl}}/api/gigs/{{gigId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "gigs",
+                "{{gigId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete gig - success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\r\npm.test(\"Delete gig returns 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response is JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\npm.test(\"Gig deletion is successful\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.success).to.eql(true);\r\n});\r\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{freelancerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/gigs/{{gigId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "gigs",
+                "{{gigId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get deleted gig - not found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\r\npm.test(\"Deleted gig returns 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\npm.test(\"Response is JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\npm.test(\"Deleted gig cannot be found\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.success).to.eql(false);\r\n    pm.expect(data.message).to.eql(\"Gig not found.\");\r\n});\r\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{freelancerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/gigs/{{gigId}}",
               "host": [
