@@ -685,6 +685,324 @@
           "response": []
         },
         {
+          "name": "Create booking - success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst jsonData = pm.response.json();\r\n\r\npm.test(\"Booking created successfully\", function () {\r\n    pm.expect(jsonData.success).to.eql(true);\r\n    pm.expect(jsonData.message).to.eql(\"Booking submitted successfully.\");\r\n});\r\n\r\npm.test(\"Booking has correct details\", function () {\r\n    pm.expect(jsonData.booking).to.have.property(\"_id\");\r\n    pm.expect(jsonData.booking.gig).to.eql(pm.collectionVariables.get(\"gigId\"));\r\n    pm.expect(jsonData.booking.status).to.eql(\"Pending\");\r\n});\r\n\r\npm.collectionVariables.set(\"bookingId\", jsonData.booking._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{clientToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"gigId\": \"{{gigId}}\",\r\n  \"bookingDate\": \"2026-11-15\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get my bookings - success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst jsonData = pm.response.json();\r\n\r\npm.test(\"Bookings retrieved successfully\", function () {\r\n    pm.expect(jsonData.success).to.eql(true);\r\n    pm.expect(jsonData.bookings).to.be.an(\"array\");\r\n});\r\n\r\npm.test(\"Newly created booking is included\", function () {\r\n    const bookingId = pm.collectionVariables.get(\"bookingId\");\r\n\r\n    const booking = jsonData.bookings.find(\r\n        b => b._id === bookingId\r\n    );\r\n\r\n    pm.expect(booking).to.exist;\r\n    pm.expect(booking.status).to.eql(\"Pending\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{clientToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings/mine",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                "mine"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create booking - no token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\nconst jsonData = pm.response.json();\r\n\r\npm.test(\"Request is rejected without authentication\", function () {\r\n    pm.expect(jsonData.success).to.eql(false);\r\n});\r\n\r\npm.test(\"Error message is returned\", function () {\r\n    pm.expect(jsonData.message).to.be.a(\"string\");\r\n    pm.expect(jsonData.message.length).to.be.greaterThan(0);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"gigId\": \"{{gigId}}\",\r\n  \"bookingDate\": \"2026-11-15\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create booking - invalid date",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst jsonData = pm.response.json();\r\n\r\npm.test(\"Invalid booking date is rejected\", function () {\r\n    pm.expect(jsonData.success).to.eql(false);\r\n});\r\n\r\npm.test(\"Correct validation message is returned\", function () {\r\n    pm.expect(jsonData.message).to.eql(\r\n        \"Please select a valid booking date.\"\r\n    );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{clientToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"gigId\": \"{{gigId}}\",\r\n  \"bookingDate\": \"not-a-date\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create booking - missing gig id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst jsonData = pm.response.json();\r\n\r\npm.test(\"Missing gig ID is rejected\", function () {\r\n    pm.expect(jsonData.success).to.eql(false);\r\n});\r\n\r\npm.test(\"Correct validation message is returned\", function () {\r\n    pm.expect(jsonData.message).to.eql(\r\n        \"A gig and booking date are required.\"\r\n    );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{clientToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"bookingDate\": \"2026-11-15\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create booking - gig not found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\nconst jsonData = pm.response.json();\r\n\r\npm.test(\"Booking is rejected for nonexistent gig\", function () {\r\n    pm.expect(jsonData.success).to.eql(false);\r\n});\r\n\r\npm.test(\"Correct error message is returned\", function () {\r\n    pm.expect(jsonData.message).to.eql(\"Gig not found.\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{clientToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"gigId\": \"000000000000000000000000\",\r\n  \"bookingDate\": \"2026-11-15\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create gig - client forbidden",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () {\r\n    pm.response.to.have.status(403);\r\n});\r\n\r\nconst jsonData = pm.response.json();\r\n\r\npm.test(\"Client is forbidden from creating gigs\", function () {\r\n    pm.expect(jsonData.success).to.eql(false);\r\n});\r\n\r\npm.test(\"Access denied message is returned\", function () {\r\n    pm.expect(jsonData.message).to.be.a(\"string\");\r\n    pm.expect(jsonData.message.length).to.be.greaterThan(0);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{clientToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Unauthorized Test Gig\",\r\n  \"title\": \"Unauthorized Test Gig\",\r\n  \"description\": \"A client should not be able to create this gig.\",\r\n  \"amount\": 500\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/gigs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "gigs"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Get another freelancer gig - forbidden",
           "event": [
             {
@@ -803,6 +1121,97 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Get freelancer bookings - success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst jsonData = pm.response.json();\r\n\r\npm.test(\"Freelancer bookings retrieved successfully\", function () {\r\n    pm.expect(jsonData.success).to.eql(true);\r\n    pm.expect(jsonData.bookings).to.be.an(\"array\");\r\n});\r\n\r\npm.test(\"New booking is included\", function () {\r\n    const bookingId = pm.collectionVariables.get(\"bookingId\");\r\n\r\n    const booking = jsonData.bookings.find(\r\n        b => b._id === bookingId\r\n    );\r\n\r\n    pm.expect(booking).to.exist;\r\n    pm.expect(booking.status).to.eql(\"Pending\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{freelancerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/freelancer/bookings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "freelancer",
+                "bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Accept booking - success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst jsonData = pm.response.json();\r\n\r\npm.test(\"Booking accepted successfully\", function () {\r\n    pm.expect(jsonData.success).to.eql(true);\r\n    pm.expect(jsonData.message).to.eql(\"Booking updated successfully.\");\r\n});\r\n\r\npm.test(\"Booking status is Accepted\", function () {\r\n    pm.expect(jsonData.booking._id).to.eql(\r\n        pm.collectionVariables.get(\"bookingId\")\r\n    );\r\n    pm.expect(jsonData.booking.status).to.eql(\"Accepted\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{freelancerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"status\": \"Accepted\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/freelancer/bookings/{{bookingId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "freelancer",
+                "bookings",
+                "{{bookingId}}",
+                "status"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     }
@@ -826,6 +1235,18 @@
     },
     {
       "key": "freelancer2Token",
+      "value": ""
+    },
+    {
+      "key": "newClientEmail",
+      "value": ""
+    },
+    {
+      "key": "newFreelancerEmail",
+      "value": ""
+    },
+    {
+      "key": "bookingId",
       "value": ""
     }
   ]
