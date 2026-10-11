@@ -20,6 +20,15 @@
                   "pm.test(\"Registration returns 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Registration successful\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.success).to.eql(true);\r\n});\r\n\r\npm.test(\"User has client role\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.user.role).to.eql(\"client\");\r\n});\r\n\r\npm.test(\"Password is not returned\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.user).to.not.have.property(\"password\");\r\n});"
                 ]
               }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\r\nconst uniqueEmail = `clienttest_${Date.now()}@example.com`;\r\n\r\npm.collectionVariables.set(\"newClientEmail\", uniqueEmail);\r\n"
+                ]
+              }
             }
           ],
           "request": {
@@ -27,7 +36,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Test Client\",\r\n  \"email\": \"clienttest2@example.com\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"client\"\r\n}",
+              "raw": "\r\n{\r\n  \"name\": \"Test Client\",\r\n  \"email\": \"{{newClientEmail}}\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"client\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -59,6 +68,15 @@
                   "pm.test(\"Registration returns 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Registration successful\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.success).to.eql(true);\r\n});\r\n\r\npm.test(\"User has freelancer role\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.user.role).to.eql(\"freelancer\");\r\n});\r\n\r\npm.test(\"Password is not returned\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.user).to.not.have.property(\"password\");\r\n});"
                 ]
               }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\r\nconst uniqueEmail = `freelancertest_${Date.now()}@example.com`;\r\n\r\npm.collectionVariables.set(\"newFreelancerEmail\", uniqueEmail);\r\n"
+                ]
+              }
             }
           ],
           "request": {
@@ -66,7 +84,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Test Freelancer\",\r\n  \"email\": \"freelancertest2@example.com\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"freelancer\"\r\n}",
+              "raw": "\r\n{\r\n  \"name\": \"Test Freelancer\",\r\n  \"email\": \"{{newFreelancerEmail}}\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"freelancer\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -98,6 +116,15 @@
                   "pm.test(\"Registration returns 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Registration successful\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.success).to.eql(true);\r\n});\r\n\r\npm.test(\"User has freelancer role\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.user.role).to.eql(\"freelancer\");\r\n});\r\n\r\npm.test(\"Password is not returned\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.user).to.not.have.property(\"password\");\r\n});"
                 ]
               }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\r\nconst uniqueEmail = `freelancer2test_${Date.now()}@example.com`;\r\n\r\npm.collectionVariables.set(\"newFreelancer2Email\", uniqueEmail);\r\n"
+                ]
+              }
             }
           ],
           "request": {
@@ -105,7 +132,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Test Freelancer 2\",\r\n  \"email\": \"freelancertest3@example.com\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"freelancer\"\r\n}",
+              "raw": "\r\n{\r\n  \"name\": \"Test Freelancer 2\",\r\n  \"email\": \"{{newFreelancer2Email}}\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"freelancer\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -144,7 +171,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Test Client\",\r\n  \"email\": \"clienttest2@example.com\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"client\"\r\n}",
+              "raw": "\r\n{\r\n  \"name\": \"Test Client\",\r\n  \"email\": \"{{newClientEmail}}\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"client\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -183,7 +210,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"clienttest2@example.com\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"client\"\r\n}",
+              "raw": "\r\n{\r\n  \"email\": \"{{newClientEmail}}\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"client\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -222,7 +249,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"freelancertest2@example.com\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"freelancer\"\r\n}",
+              "raw": "\r\n{\r\n  \"email\": \"{{newFreelancerEmail}}\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"freelancer\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -261,7 +288,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"freelancertest3@example.com\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"freelancer\"\r\n}",
+              "raw": "\r\n{\r\n  \"email\": \"{{newFreelancer2Email}}\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"freelancer\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -300,7 +327,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"clienttest2@example.com\",\r\n  \"password\": \"WrongPassword123\",\r\n  \"role\": \"client\"\r\n}",
+              "raw": "\r\n{\r\n  \"email\": \"{{newClientEmail}}\",\r\n  \"password\": \"WrongPassword123\",\r\n  \"role\": \"client\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -339,7 +366,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"clienttest2@example.com\",\r\n  \"role\": \"client\"\r\n}",
+              "raw": "\r\n{\r\n  \"email\": \"{{newClientEmail}}\",\r\n  \"role\": \"client\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -609,46 +636,6 @@
           "response": []
         },
         {
-          "name": "Get another freelancer gig - forbidden",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "\r\npm.test(\"Returns 404 for another freelancer's gig\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\npm.test(\"Response is JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\npm.test(\"Request is rejected\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.success).to.eql(false);\r\n});\r\n\r\npm.test(\"Returns correct error message\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.message).to.eql(\"Gig not found.\");\r\n});\r\n"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{freelancer2Token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/gigs/{{gigId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "gigs",
-                "{{gigId}}"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
           "name": "Update gig- success",
           "event": [
             {
@@ -683,6 +670,46 @@
                 }
               }
             },
+            "url": {
+              "raw": "{{baseUrl}}/api/gigs/{{gigId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "gigs",
+                "{{gigId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get another freelancer gig - forbidden",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\r\npm.test(\"Returns 404 for another freelancer's gig\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\npm.test(\"Response is JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\npm.test(\"Request is rejected\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.success).to.eql(false);\r\n});\r\n\r\npm.test(\"Returns correct error message\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.message).to.eql(\"Gig not found.\");\r\n});\r\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{freelancer2Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/gigs/{{gigId}}",
               "host": [
