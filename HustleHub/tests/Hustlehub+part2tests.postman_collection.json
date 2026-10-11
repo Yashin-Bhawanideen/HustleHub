@@ -1,0 +1,99 @@
+{
+  "info": {
+    "_postman_id": "e5b06da2-f3ed-4160-b515-e4059e06665e",
+    "name": "Hustlehub+part2tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58035896"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Client register - success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Registration returns 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Registration successful\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.success).to.eql(true);\r\n});\r\n\r\npm.test(\"User has client role\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.user.role).to.eql(\"client\");\r\n});\r\n\r\npm.test(\"Password is not returned\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.user).to.not.have.property(\"password\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Test Client\",\r\n  \"email\": \"clienttest2@example.com\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"client\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Client register - duplicate email",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Duplicate email is rejected\", function () {\r\n    pm.response.to.have.status(409);\r\n});\r\n\r\npm.test(\"Registration fails\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.success).to.eql(false);\r\n});\r\n\r\npm.test(\"No user details are returned\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data).to.not.have.property(\"user\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Test Client\",\r\n  \"email\": \"clienttest2@example.com\",\r\n  \"password\": \"TestPassword123\",\r\n  \"role\": \"client\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    }
+  ]
+}
