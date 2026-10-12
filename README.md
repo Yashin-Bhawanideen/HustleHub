@@ -1,5 +1,13 @@
 # HustleHub+ (MERN) - Client / Freelancer login
 
+#Members
+- ST10444715 Keegan Ewan Tromp
+- ST10434249 Richard Hein
+- ST10443463 Yashin Bhawanideen
+- ST10443090 Amir Muller
+- ST10450208 Mishal Bhikha
+
+
 On the freelancing marketplace platform HustleHub+, clients peruse and reserve the services of independent contractors. The system's authentication base is covered in this version of the project. Both clients and freelancers can register and log in; upon successful login, each role is redirected to a secure page. A client sees the corresponding site for clients, and a freelancer sees a page verifying they are logged in as a freelancer. The rest of the team will create the gig management, booking, and finance functionality from these pages.
 
 It's a full-stack MERN application. React is used to build the frontend, Node.js and Express are used to build the backend API, and Azure DocumentDB (Azure Cosmos DB for MongoDB) is used to store user data in MongoDB. Docker is used to containerise both the frontend and the backend, ensuring that the project functions consistently across all machines.
