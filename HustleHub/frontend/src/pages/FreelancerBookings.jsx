@@ -2,10 +2,14 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api.js';
 import { useAuth } from '../context/AuthContext.jsx';
-
+/**
+ * Page where a freelancer sees the booking requests clients have made for
+ * their gigs and can accept or reject the pending ones.
+ */
 export default function FreelancerBookings() {
     const { user, logout } = useAuth();
 
+    // All bookings returned by the API for this freelancer.
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -24,11 +28,15 @@ export default function FreelancerBookings() {
 
     loadBookings();
 }, []);
-
+// Sends the new status for one booking to the backend, then updates the list
+// on screen without reloading the page.
 async function handleStatusChange(id, status) {
     try{ 
         setError('');
 
+        // Replace only the changed booking with the updated one returned by the
+        // server. map() builds a new array, which is needed because React state
+        // must not be changed directly
         const data = await api.updateBookingStatus(id, status);
         setBookings((prev) =>
             prev.map((b) => (b._id === id ? data.booking : b))
@@ -37,6 +45,7 @@ async function handleStatusChange(id, status) {
         
 
     } catch (err) {
+        // Show the error message returned by the API.
         setError(err.message);
     }
 }
@@ -125,3 +134,8 @@ return (
     </main>
 );
 }
+// Reference List
+
+// MDN Web Docs Array.prototype.map(). Available at: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map (Accessed: 12 October 2026).
+// MDN Web Docs ARIA: alert role. Available at: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/alert_role (Accessed: 12 October 2026).
+// MDN Web Docs Optional chaining . Available at: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining (Accessed: 12 October 2026).
