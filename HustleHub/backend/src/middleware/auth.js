@@ -1,3 +1,4 @@
+// The User model represents the users collection in the database.
 const User = require('../models/User');
 const { verifyToken } = require('../utils/token');
 
@@ -11,6 +12,7 @@ async function authenticate(req, res, next) {
       return res.status(401).json({ success: false, message: 'Authentication required.' });
     }
 
+    // Declared outside the inner try block so it can be used afterwards.
     let payload;
     try {
       payload = verifyToken(token);
@@ -31,7 +33,13 @@ async function authenticate(req, res, next) {
   }
 }
 
-// Role-based access control: allow only the listed roles.
+/**
+ * Role-based access control (RBAC) middleware factory.
+ * Takes the roles that are allowed (e.g. 'client', 'freelancer') and returns
+ * a middleware function that only lets those roles through (OWASP, n.d.).
+ * The rest parameter (...allowedRoles) collects all arguments into an array.
+ * It must run after authenticate(), because it relies on req.user.
+ */
 function authorizeRoles(...allowedRoles) {
   return (req, res, next) => {
     if (!req.user || !allowedRoles.includes(req.user.role)) {
@@ -40,5 +48,5 @@ function authorizeRoles(...allowedRoles) {
     next();
   };
 }
-
+// Export both middleware functions so they can be used in the route files
 module.exports = { authenticate, authorizeRoles };
