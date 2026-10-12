@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 
+// The two roles a user can pick. Defining them as data lets the radio buttons
+// be generated with a loop instead of repeating the same markup.
 const ROLES = [
   { value: 'client', title: "I'm a client", text: 'Browse services and book freelancers.' },
   { value: 'freelancer', title: "I'm a freelancer", text: 'Offer your services and get booked.' }
@@ -9,6 +11,10 @@ const ROLES = [
 
 const emptyForm = { name: '', email: '', password: '', confirmPassword: '' };
 
+/**
+ * Combined login and registration page. The user chooses a role, then
+ * switches between logging in and creating an account.
+ */
 export default function AuthPage() {
   const { login, register } = useAuth();
   const navigate = useNavigate();
@@ -25,13 +31,16 @@ export default function AuthPage() {
   function update(event) {
     setForm((prev) => ({ ...prev, [event.target.name]: event.target.value }));
   }
-
+// Switches between login and registration and clears old messages.
   function switchMode(next) {
     setMode(next);
     setError('');
     setNotice('');
   }
-
+// Checks the password rules on the client before sending the request.
+  // These mirror the backend validation so users get quick feedback, but the
+  // server still validates again because client-side checks can be bypassed
+  // (OWASP, n.d.). Returns an error message, or an empty string if valid.
   function validateRegistration() {
     if (form.password.length < 8) return 'Password must be at least 8 characters.';
     if (!/[A-Z]/.test(form.password)) return 'Password must contain an uppercase letter.';
@@ -162,3 +171,11 @@ export default function AuthPage() {
     </div>
   );
 }
+
+// Reference List
+// MDN Web Docs (n.d.a) Spread syntax. Available at: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax (Accessed: 12 October 2026).
+// MDN Web Docs (n.d.b) Regular expressions. Available at: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions (Accessed: 12 October 2026).
+// OWASP Input Validation Cheat Sheet. Available at: https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html (Accessed: 12 October 2026).
+// React  useState. Available at: https://react.dev/reference/react/useState (Accessed: 12 October 2026).
+// React  Reacting to Input with State. Available at: https://react.dev/learn/reacting-to-input-with-state (Accessed: 12 October 2026).
+// React  Rendering Lists. Available at: https://react.dev/learn/rendering-lists (Accessed: 12 October 2026).
