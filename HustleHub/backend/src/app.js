@@ -18,7 +18,7 @@ const app = express();
 // The frontend container's nginx sits in front of this API, so trust one proxy hop
 // (needed for rate limiting to see the real client IP).
 app.set('trust proxy', 1);
-
+// Add security-related HTTP headers to every response 
 app.use(helmet());
 app.use(cors({ origin: config.clientOrigin, credentials: true }));
 app.use(express.json({ limit: '10kb' }));
@@ -37,7 +37,7 @@ app.get('/api/health', (req, res) => {
   const dbConnected = mongoose.connection.readyState === 1;
   res.status(dbConnected ? 200 : 503).json({ success: dbConnected, database: dbConnected ? 'connected' : 'disconnected' });
 });
-
+// The rate limiter is applied only to the authentication routes.
 app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api', roleRoutes);
 app.use('/api/gigs', gigRoutes);
@@ -47,4 +47,5 @@ app.use('/api/freelancer/bookings', freelancerBookingRoutes);
 app.use((req, res) => res.status(404).json({ success: false, message: 'Route not found.' }));
 app.use(errorHandler);
 
+// Export the app so it can be started in server.js and used in tests.
 module.exports = app;
