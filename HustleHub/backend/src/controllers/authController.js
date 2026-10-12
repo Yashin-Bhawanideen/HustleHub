@@ -1,5 +1,8 @@
+// bcryptjs is a pure JavaScript library for hashing and comparing passwords.
+// Passwords are hashed so they are never stored in plain text .
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+// Environment configuration (e.g. the number of salt rounds used when hashing).
 const config = require('../config/env');
 const { signToken } = require('../utils/token');
 
@@ -7,6 +10,11 @@ const { signToken } = require('../utils/token');
 // reveal whether an account exists.
 const DUMMY_HASH = bcrypt.hashSync('not-a-real-password', 10);
 
+/**
+ * Registers a new user account.
+ * Expects name, email, password and role in the request body.
+ * Responds with 201 on success or 409 if the email is already in use.
+ */
 async function register(req, res, next) {
   try {
     const { name, email, password, role } = req.body;
@@ -29,7 +37,11 @@ async function register(req, res, next) {
     next(err);
   }
 }
-
+/**
+ * Logs a user in.
+ * Expects email, password and role in the request body.
+ * Responds with a JWT and the user's public details on success.
+ */
 async function login(req, res, next) {
   try {
     const { email, password, role } = req.body;
@@ -68,3 +80,10 @@ function me(req, res) {
 }
 
 module.exports = { register, login, me };
+
+// Reference List
+// bcryptjs bcrypt.js: Optimized bcrypt in JavaScript. Available at: https://github.com/dcodeIO/bcrypt.js (Accessed: 12 October 2026).
+// Express Error handling. Available at: https://expressjs.com/en/guide/error-handling.html (Accessed: 12 October 2026).
+// JWT.io Introduction to JSON Web Tokens. Available at: https://jwt.io/introduction (Accessed: 12 October 2026).
+// Mongoose Schema types: select. Available at: https://mongoosejs.com/docs/api/schematype.html (Accessed: 12 October 2026).
+// OWASP  Authentication Cheat Sheet. Available at: https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html (Accessed: 12 October 2026).
