@@ -1,6 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+// api holds the functions that call the backend, and tokenStore wraps reading,
+// saving and clearing the JWT in the browser.
 import { api, tokenStore } from '../api.js';
 
+// Create the authentication context. It starts as null so useAuth() can
+// detect when it is used outside the provider 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -39,9 +43,10 @@ export function AuthProvider({ children }) {
     setUser(data.user);
     return data.user;
   }, []);
-
+// Registers a new account. The user is not logged in automatically; they
+  // log in afterwards, matching the message from the backend.
   const register = useCallback((payload) => api.register(payload), []);
-
+// Logs the user out by removing the token and clearing the user state.
   const logout = useCallback(() => {
     tokenStore.clear();
     setUser(null);
@@ -55,8 +60,16 @@ export function AuthProvider({ children }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
+/**
+ * Custom hook that lets any component read the auth data, e.g.
+ * const { user, login } = useAuth();
+ */
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error('useAuth must be used inside <AuthProvider>');
   return ctx;
 }
+// Reference List
+// React Built-in React Hooks. Available at: https://react.dev/reference/react/hooks (Accessed: 12 October 2026).
+// React useContext. Available at: https://react.dev/reference/react/useContext (Accessed: 12 October 2026).
+// React useEffect. Available at: https://react.dev/reference/react/useEffect (Accessed: 12 October 2026).
