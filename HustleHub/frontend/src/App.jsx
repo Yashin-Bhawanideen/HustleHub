@@ -7,7 +7,13 @@ import FreelancerHome from './pages/FreelancerHome.jsx';
 import ClientBookings from './pages/ClientBookings.jsx';
 import FreelancerBookings from './pages/FreelancerBookings.jsx';
 
+/**
+ * Root component of the frontend. It defines every page (route) in the app
+ * and decides which one the user can see (React Router, n.d.c).
+ */
 export default function App() {
+   // user is null when nobody is logged in. loading is true while the app is
+  // still checking for a stored session
   const { user, loading } = useAuth();
 
   return (
@@ -31,3 +37,5 @@ export default function App() {
     </Routes>
   );
 }
+// Reference List
+// MDN Web Docs ARIA: aria-busy attribute. Available at: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-busy (Accessed: 12 October 2026).
