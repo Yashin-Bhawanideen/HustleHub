@@ -1,6 +1,14 @@
+// The Booking model represents the bookings collection in the database.
 const Booking = require('../models/Booking');
+
+// The Gig model is needed to look up the gig being booked and its owner.
 const Gig = require('../models/Gig');
 
+/**
+ * Creates a new booking for a gig (client action).
+ * Expects gigId and bookingDate (YYYY-MM-DD) in the request body.
+ * Responds with 201 on success, or 400/404 if validation fails.
+ */
 async function createBooking(req, res, next) {
     try {
         const { gigId, bookingDate } = req.body;
@@ -12,6 +20,8 @@ async function createBooking(req, res, next) {
             });
         }
 
+        // Convert the date string into a JavaScript Date object so it can be
+        // validated and stored
         const date = new Date(bookingDate);
 
         if (
@@ -25,6 +35,7 @@ async function createBooking(req, res, next) {
             });
         }
 
+        // Look up the gig by its ID to make sure it exists 
         const gig = await Gig.findById(gigId);
 
         if (!gig) {
@@ -58,7 +69,9 @@ async function createBooking(req, res, next) {
         next(err);
     }
 }
-
+/**
+ * Returns all bookings made by the logged-in client, newest first.
+ */
 async function getMyBookings(req, res, next) {
     try {
         const bookings = await Booking.find({
@@ -76,7 +89,9 @@ async function getMyBookings(req, res, next) {
         next(err);
     }
 }
-
+/**
+ * Returns all bookings received by the logged-in freelancer, newest first.
+ */
 async function getFreelancerBookings(req, res, next){
     try {
         const bookings = await Booking.find({ freelancer: req.user._id})
@@ -92,7 +107,10 @@ async function getFreelancerBookings(req, res, next){
         next(err);
     }
 }
-
+/**
+ * Lets a freelancer accept or reject a booking.
+ * Expects the booking ID in the URL and the new status in the request body.
+ */
 async function updateBookingStatus(req, res, next){
     try {
         const { id } = req.params;
@@ -130,10 +148,15 @@ async function updateBookingStatus(req, res, next){
     }
 
 }
-
+// Export the controller functions so they can be used in the route definitions.
 module.exports = {
     createBooking,
     getMyBookings,
     getFreelancerBookings,
     updateBookingStatus
 };
+// Reference List
+// Express Error handling. Available at: https://expressjs.com/en/guide/error-handling.html (Accessed: 12 October 2026).
+// MDN Web Docs Date. Available at: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date (Accessed: 12 October 2026).
+// Mongoos Queries and populate. Available at: https://mongoosejs.com/docs/populate.html (Accessed: 12 October 2026).
+// OWASP Authorization Cheat Sheet. Available at: https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html (Accessed: 12 October 2026).
