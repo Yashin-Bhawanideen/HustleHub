@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import { api } from '../api.js';
 import { useAuth } from '../context/AuthContext.jsx';
 
+/**
+ * Home page for a logged-in client. It lists every gig offered by freelancers
+ * and lets the client book one by choosing a date.
+ */
 export default function ClientHome() {
     const { user, logout } = useAuth();
 
@@ -42,7 +46,7 @@ export default function ClientHome() {
             cancelled = true;
         };
     }, []);
-
+// Runs when the booking form is submitted.
     async function handleBooking(event) {
         event.preventDefault();
 
