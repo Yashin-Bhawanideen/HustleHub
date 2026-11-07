@@ -12,7 +12,7 @@ const authRoutes = require('./routes/authRoutes');
 const roleRoutes = require('./routes/roleRoutes');
 const errorHandler = require('./middleware/errorHandler');
 const freelancerBookingRoutes = require('./routes/freelancerBookingRoutes');
-
+const notificationRoutes = require('./routes/notificationRoutes');
 const app = express();
 
 // The frontend container's nginx sits in front of this API, so trust one proxy hop
@@ -44,6 +44,7 @@ app.use('/api/gigs', gigRoutes);
 app.use('/api/client', clientRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/freelancer/bookings', freelancerBookingRoutes);
+app.use('/api/notifications', notificationRoutes);
 app.use((req, res) => res.status(404).json({ success: false, message: 'Route not found.' }));
 app.use(errorHandler);
 

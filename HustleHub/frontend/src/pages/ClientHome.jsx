@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api.js';
 import { useAuth } from '../context/AuthContext.jsx';
+import Notifications from '../components/Notifications.jsx';
 
 /**
  * Home page for a logged-in client. It lists every gig offered by freelancers
@@ -97,6 +98,8 @@ export default function ClientHome() {
                     </button>
                 </div>
             </header>
+
+            <Notifications />
 
             <section className="gig-dashboard">
                 <div className="gig-section-header">

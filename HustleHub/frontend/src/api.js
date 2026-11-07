@@ -114,5 +114,20 @@ export const api = {
         }),
 
     getMyBookings: () =>
-        request('/bookings/mine')
+        request('/bookings/mine'),
+
+    
+    getNotifications: () =>
+        request('/notifications'),
+
+    markNotificationRead: (id) =>
+        request('/notifications/' + id + '/read', {
+            method: 'PATCH'
+        }),
+
+    markAllNotificationsRead: () =>
+        request('/notifications/read-all', {
+            method: 'PATCH'
+        })
+
 };
