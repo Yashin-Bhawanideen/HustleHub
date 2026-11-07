@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api.js';
 import { useAuth } from '../context/AuthContext.jsx';
+import Notifications from '../components/Notifications.jsx';
 
 export default function ClientBookings() {
     const { user, logout } = useAuth();
@@ -62,6 +63,8 @@ export default function ClientBookings() {
                     </button>
                 </div>
             </header>
+
+            <Notifications />
 
             <section className="gig-dashboard">
                 <div className="gig-section-header">

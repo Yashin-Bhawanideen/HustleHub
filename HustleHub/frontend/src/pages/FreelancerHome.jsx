@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { api } from '../api.js';
 import GigForm from '../components/GigForm.jsx';
 import GigCard from '../components/GigCard.jsx';
+import Notifications from '../components/Notifications.jsx';
 
 export default function FreelancerHome() {
   const { user, logout } = useAuth();
@@ -127,7 +128,9 @@ export default function FreelancerHome() {
         </button>
       </div>
         
-      </header>
+          </header>
+
+          <Notifications />
 
       <section className="gig-dashboard">
         <div className="gig-section-header">

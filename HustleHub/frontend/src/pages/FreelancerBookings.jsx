@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api.js';
 import { useAuth } from '../context/AuthContext.jsx';
+import Notifications from '../components/Notifications.jsx';
 /**
  * Page where a freelancer sees the booking requests clients have made for
  * their gigs and can accept or reject the pending ones.
@@ -67,6 +68,8 @@ return (
 
         </header>
 
+        <Notifications />
+
         <section className="gig-dashboard">
         {error && <p className="form-error" role="alert" >{error}</p>}
 
@@ -113,7 +116,7 @@ return (
 
                                 <button
                                     type="button"
-                                    onClick={() => handleStatusChange(booking._id, 'Declined')}
+                                    onClick={() => handleStatusChange(booking._id, 'Rejected')}
                                     >
                                         Reject
                                     </button>

@@ -1,14 +1,8 @@
-// The Booking model represents the bookings collection in the database.
 const Booking = require('../models/Booking');
-
-// The Gig model is needed to look up the gig being booked and its owner.
 const Gig = require('../models/Gig');
+const Notification = require('../models/Notification');
+const { logActivity } = require('../utils/activityLogger');
 
-/**
- * Creates a new booking for a gig (client action).
- * Expects gigId and bookingDate (YYYY-MM-DD) in the request body.
- * Responds with 201 on success, or 400/404 if validation fails.
- */
 async function createBooking(req, res, next) {
     try {
         const { gigId, bookingDate } = req.body;
@@ -20,8 +14,6 @@ async function createBooking(req, res, next) {
             });
         }
 
-        // Convert the date string into a JavaScript Date object so it can be
-        // validated and stored
         const date = new Date(bookingDate);
 
         if (
@@ -35,7 +27,6 @@ async function createBooking(req, res, next) {
             });
         }
 
-        // Look up the gig by its ID to make sure it exists 
         const gig = await Gig.findById(gigId);
 
         if (!gig) {
@@ -60,6 +51,23 @@ async function createBooking(req, res, next) {
             status: 'Pending'
         });
 
+        await Notification.create({
+            recipient: gig.freelancer,
+            type: 'booking_created',
+            title: 'New booking request',
+            message: `${req.user.name} has requested to book your gig: ${gig.title}.`,
+            relatedBooking: booking._id
+        });
+
+        await logActivity({
+            actor: req.user._id,
+            action: 'BOOKING_CREATED',
+            entityType: 'Booking',
+            entityId: booking._id,
+            details: `Client submitted a booking request for ${gig.title}.`,
+            ipAddress: req.ip
+        });
+
         return res.status(201).json({
             success: true,
             message: 'Booking submitted successfully.',
@@ -69,9 +77,7 @@ async function createBooking(req, res, next) {
         next(err);
     }
 }
-/**
- * Returns all bookings made by the logged-in client, newest first.
- */
+
 async function getMyBookings(req, res, next) {
     try {
         const bookings = await Booking.find({
@@ -89,17 +95,17 @@ async function getMyBookings(req, res, next) {
         next(err);
     }
 }
-/**
- * Returns all bookings received by the logged-in freelancer, newest first.
- */
-async function getFreelancerBookings(req, res, next){
+
+async function getFreelancerBookings(req, res, next) {
     try {
-        const bookings = await Booking.find({ freelancer: req.user._id})
+        const bookings = await Booking.find({
+            freelancer: req.user._id
+        })
             .populate('gig', 'name title description amount')
             .populate('client', 'name email')
             .sort({ createdAt: -1 });
 
-            return res.status(200).json({
+        return res.status(200).json({
             success: true,
             bookings
         });
@@ -107,11 +113,8 @@ async function getFreelancerBookings(req, res, next){
         next(err);
     }
 }
-/**
- * Lets a freelancer accept or reject a booking.
- * Expects the booking ID in the URL and the new status in the request body.
- */
-async function updateBookingStatus(req, res, next){
+
+async function updateBookingStatus(req, res, next) {
     try {
         const { id } = req.params;
         const { status } = req.body;
@@ -123,7 +126,10 @@ async function updateBookingStatus(req, res, next){
             });
         }
 
-        const booking = await Booking.findOne({_id: id, freelancer: req.user._id});
+        const booking = await Booking.findOne({
+            _id: id,
+            freelancer: req.user._id
+        });
 
         if (!booking) {
             return res.status(404).json({
@@ -132,23 +138,59 @@ async function updateBookingStatus(req, res, next){
             });
         }
 
+        if (booking.status !== 'Pending') {
+            return res.status(400).json({
+                success: false,
+                message: 'This booking has already been processed.'
+            });
+        }
 
         booking.status = status;
         await booking.save();
 
-        return res.status (200).json({
+        const gig = await Gig.findById(booking.gig);
+
+        const notificationType = status === 'Accepted'
+            ? 'booking_accepted'
+            : 'booking_rejected';
+
+        const notificationTitle = status === 'Accepted'
+            ? 'Booking accepted'
+            : 'Booking rejected';
+
+        const notificationMessage = status === 'Accepted'
+            ? `Your booking for ${gig?.title || 'a gig'} has been accepted.`
+            : `Your booking for ${gig?.title || 'a gig'} has been rejected.`;
+
+        await Notification.create({
+            recipient: booking.client,
+            type: notificationType,
+            title: notificationTitle,
+            message: notificationMessage,
+            relatedBooking: booking._id
+        });
+
+        await logActivity({
+            actor: req.user._id,
+            action: status === 'Accepted'
+                ? 'BOOKING_ACCEPTED'
+                : 'BOOKING_REJECTED',
+            entityType: 'Booking',
+            entityId: booking._id,
+            details: `Freelancer changed booking status to ${status}.`,
+            ipAddress: req.ip
+        });
+
+        return res.status(200).json({
             success: true,
             message: 'Booking updated successfully.',
             booking
         });
-
     } catch (err) {
         next(err);
-
     }
-
 }
-// Export the controller functions so they can be used in the route definitions.
+
 module.exports = {
     createBooking,
     getMyBookings,
