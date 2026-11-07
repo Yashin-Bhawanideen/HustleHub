@@ -117,6 +117,7 @@ export default function FreelancerHome() {
         </div>
 
       <div>
+        <Link to="/freelancer/tax" style={{ marginRight: '1rem' }}>Tax Analytics</Link>
         <Link to="/freelancer/bookings">View Bookings</Link>
 
         <button

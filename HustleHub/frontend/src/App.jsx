@@ -6,6 +6,7 @@ import ClientHome from './pages/ClientHome.jsx';
 import FreelancerHome from './pages/FreelancerHome.jsx';
 import ClientBookings from './pages/ClientBookings.jsx';
 import FreelancerBookings from './pages/FreelancerBookings.jsx';
+import FreelancerTax from './pages/FreelancerTax.jsx';
 
 /**
  * Root component of the frontend. It defines every page (route) in the app
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="/client/bookings"element={<ProtectedRoute role="client"><ClientBookings /></ProtectedRoute>}/>
       <Route path="/freelancer" element={<ProtectedRoute role="freelancer"><FreelancerHome /></ProtectedRoute>} />
       <Route path="/freelancer/bookings" element={<ProtectedRoute role="freelancer"><FreelancerBookings /></ProtectedRoute>} /> 
+      <Route path="/freelancer/tax" element={<ProtectedRoute role="freelancer"><FreelancerTax /> </ProtectedRoute>}/>
     </Routes>
   );
 }

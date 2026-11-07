@@ -1,6 +1,6 @@
 const express = require('express');
 const {getSummary } = require('../controllers/taxController');
-const {authenticate} = require('../middleware/auth');
+const { authenticate, authorizeRoles} = require('../middleware/auth');
 
 const router = express.Router();
 
