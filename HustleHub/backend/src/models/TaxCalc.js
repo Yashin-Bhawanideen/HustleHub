@@ -9,6 +9,7 @@
 const Booking = require('../models/Booking');
 require('../models/Gig');
 
+// here we get the monthly income array based with in each taxable year aka from 1 march 20xx - 28 february 20xx +1
 
 async function getMonthlyIncomeArray(freelancerId, taxYearStart) {
 
@@ -55,6 +56,8 @@ async function getMonthlyIncomeArray(freelancerId, taxYearStart) {
     return incomeArray;
 }
 
+
+
 class TaxCalc {
     constructor(monthlyIncomeArray) {
         if (!Array.isArray(monthlyIncomeArray)) {
@@ -67,6 +70,9 @@ class TaxCalc {
         this.yearlyTax = 0;
     }
 
+
+    //calculate annual income based on the included months within the year
+    // based on the monthly income average then * by 12
     GetAnnualIncome(monthsIncluded){
         if (monthsIncluded <= 0 || monthsIncluded > 12) {
             throw new Error('Months elapsed must be between 1 and 12.');
@@ -85,6 +91,9 @@ class TaxCalc {
 
     }
 
+
+    // here we get the tax bracket based on the projected annual income 
+    // and the sars tax brackets of the 2026 / 2027 financial year
     GetTaxBracket(annualIncome){
         // get tax bracket
         let bracketInfo = {};
@@ -144,4 +153,4 @@ class TaxCalc {
 }
 
 
-module.exports = TaxCalc;
+module.exports = { getMonthlyIncomeArray, TaxCalc };
