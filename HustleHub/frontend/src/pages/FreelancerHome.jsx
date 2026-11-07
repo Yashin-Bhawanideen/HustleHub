@@ -131,8 +131,7 @@ export default function FreelancerHome() {
         
           </header>
 
-          <Notifications />
-
+          
       <section className="gig-dashboard">
         <div className="gig-section-header">
           <div>
@@ -186,7 +185,13 @@ export default function FreelancerHome() {
             ))}
           </div>
         )}
+
+        <Notifications />
+
       </section>
+
+      
+
     </main>
   );
 }

@@ -131,7 +131,6 @@ export const api = {
         }),
 
     // freelancer tax
-    getSummary: (taxYearStart = 2026) =>
-      request('/freelancer/tax?taxYearStart=' + taxYearStart)
+    getSummary: () => request('/freelancer/tax')
 
 };
