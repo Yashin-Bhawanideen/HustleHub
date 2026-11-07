@@ -128,6 +128,10 @@ export const api = {
     markAllNotificationsRead: () =>
         request('/notifications/read-all', {
             method: 'PATCH'
-        })
+        }),
+
+    // freelancer tax
+    getSummary: (taxYearStart = 2026) =>
+      request('/freelancer/tax?taxYearStart=' + taxYearStart)
 
 };
