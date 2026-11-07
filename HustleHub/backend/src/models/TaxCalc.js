@@ -10,15 +10,17 @@ const Booking = require('../models/Booking');
 require('../models/Gig');
 
 
-async function getMonthlyIncomeArray(freelancerId, year){
+async function getMonthlyIncomeArray(freelancerId, taxYearStart) {
+
+    const startDate = new Date(`${taxYearStart}-03-01`);
+    const endDate = new Date(`${taxYearStart + 1}-02-28T23:59:59.999Z`);
+
     const monthlyTotals = await Booking.aggregate([
         {
             $match: {
                 freelancer: freelancerId,
-                createdAt: {
-                    $gte: new Date(`${year}-01-01`),
-                    $lte: new Date(`${year}-12-31`)
-                }
+                status: 'Accepted',
+                bookingDate: { $gte: startDate, $lte: endDate }
             }
         },
         {
@@ -30,60 +32,57 @@ async function getMonthlyIncomeArray(freelancerId, year){
             }
         },
         {
-            unwind: '$gigDetails'
+            $unwind: '$gigDetails' 
         },
         {
             $group: {
-                _id: {
-                    month: { $month: '$bookingDate'}
-                },
-                totalIncome: { $sum: '$gigDetails.amount'} //sum amount per month
+                _id: { month: { $month: '$bookingDate' } },
+                totalIncome: { $sum: '$gigDetails.amount' }
             }
         },
-        { 
-            $sort: {
-                '_id.month': 1
-            }
-        }
-    ])
+        { $sort: { '_id.month': 1 } }
+    ]);
 
 
     const incomeArray = new Array(12).fill(0); 
 
     monthlyTotals.forEach(item => {
-        const monthIndex = item._id.month - 1;
-        incomeArray[monthIndex] = item.totalIncome;
-    })
+        const calendarMonth = item._id.month; 
+        const taxYearIndex = (calendarMonth >= 3) ? (calendarMonth - 3) : (calendarMonth + 9);
+        incomeArray[taxYearIndex] = item.totalIncome;
+    });
 
     return incomeArray;
 }
 
 class TaxCalc {
-    constructor(monthlyIncomeArray, ) {
-
-        // check that its a array
-        if (!Array.isArray(monthlyIncome)) {
+    constructor(monthlyIncomeArray) {
+        if (!Array.isArray(monthlyIncomeArray)) {
             throw new Error('Monthly income must be an array.');
         }
 
         this.monthlyIncomeArray = monthlyIncomeArray;
         this.currentTaxBracket = null;
-    
+        this.yearlyIncome = 0;
+        this.yearlyTax = 0;
     }
 
     GetAnnualIncome(monthsIncluded){
-        if (monthsElapsed <= 0 || monthsElapsed > 12) {
+        if (monthsIncluded <= 0 || monthsIncluded > 12) {
             throw new Error('Months elapsed must be between 1 and 12.');
         }
         
         // sum of months included
-        const elapsedIncomeSum = this.monthlyIncome
-            .slice(0, monthsElapsed)
+        const elapsedIncomeSum = this.monthlyIncomeArray
+            .slice(0, monthsIncluded)
             .reduce((sum, income) => sum + income, 0);
 
         // average monthly income
-        const averageMonthlyIncome = elapsedIncomeSum / monthsElapsed;
-        return averageMonthlyIncome * 12;
+        const averageMonthlyIncome = elapsedIncomeSum / monthsIncluded;
+        
+        this.yearlyIncome = averageMonthlyIncome * 12;
+        return this.yearlyIncome;
+
     }
 
     GetTaxBracket(annualIncome){
@@ -115,6 +114,34 @@ class TaxCalc {
         return bracketInfo;
     }
 
-    // CalculateTax(incomeTax)
+    CalcYearlyTax(yearlyIncome){
+        //variables
+        const bracketInfo = this.GetTaxBracket(yearlyIncome);
+
+        // get excess amount
+        const excessAmount = yearlyIncome - bracketInfo.minTaxable;
+
+        // calc % of excess amount
+        this.yearlyTax = bracketInfo.baseAmount + (excessAmount * bracketInfo.rate);
+        return this.yearlyTax;
+
+    }
+
+    CalcYearlyNetIncome(){
+        return this.yearlyIncome - this.yearlyTax;
+    }
+
+    CalcMonthlyTax(yearlyIncome){
+        return this.CalcYearlyTax(yearlyIncome) /12;
+    }
+
+    CalcMonthlyNetIncome(){
+        return this.CalcYearlyNetIncome() /12;
+    }
+
+    
 
 }
+
+
+module.exports = TaxCalc;
