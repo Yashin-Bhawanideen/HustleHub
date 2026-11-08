@@ -1,5 +1,4 @@
 const { getMonthlyIncomeArray, TaxCalc } = require('../utils/TaxCalc');
-const mongoose = require('mongoose');
 
 async function getSummary(req, res, next) {
     try {
