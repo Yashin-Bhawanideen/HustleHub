@@ -1,0 +1,59 @@
+name: Static code analysis
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  codeql:
+    name: CodeQL analysis
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Start CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+
+      - name: Run CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+
+  eslint-security:
+    name: ESLint security rules
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend          # change if your backend is in a subfolder
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install ESLint and the security plugin
+        run: npm install --no-save eslint@9 @eslint/js@9 eslint-plugin-security globals
+
+      - name: Generate ESLint report
+        run: npx eslint src --format html --output-file eslint-report.html
+        continue-on-error: true
+
+      - name: Upload report as evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: eslint-report
+          path: backend/eslint-report.html  # change if your backend is in a subfolder
+
+      - name: Show results and fail on errors
+        run: npx eslint src
