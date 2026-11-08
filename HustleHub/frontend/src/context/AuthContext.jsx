@@ -47,9 +47,15 @@ export function AuthProvider({ children }) {
   // log in afterwards, matching the message from the backend.
   const register = useCallback((payload) => api.register(payload), []);
 // Logs the user out by removing the token and clearing the user state.
-  const logout = useCallback(() => {
-    tokenStore.clear();
-    setUser(null);
+  // security feature 2
+  const logout = useCallback(async () => {
+    try {
+      await api.logout();
+    } catch (err) {
+    } finally {
+      tokenStore.clear();
+      setUser(null);
+    }
   }, []);
 
   const value = useMemo(

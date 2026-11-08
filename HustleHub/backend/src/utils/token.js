@@ -10,7 +10,8 @@ const config = require('../config/env');
  * requests to prove who the user is (JWT.io, n.d.).
  */
 function signToken(user) {
-  return jwt.sign({ sub: user._id.toString(), role: user.role }, config.jwtSecret, {
+  // security feature 2
+  return jwt.sign({ sub: user._id.toString(), role: user.role, tv: user.tokenVersion || 0 }, config.jwtSecret, {
     expiresIn: config.jwtExpiresIn,
     algorithm: 'HS256'
   });

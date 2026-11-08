@@ -1,6 +1,6 @@
 // Express is the web framework used to build the REST API
 const express = require('express');
-const { register, login, me } = require('../controllers/authController');
+const { register, login, me, logout } = require('../controllers/authController');
 const { registerRules, loginRules, handleValidation } = require('../middleware/validators');
 const { authenticate } = require('../middleware/auth');
 
@@ -17,6 +17,8 @@ router.post('/login', loginRules, handleValidation, login);
 // authenticate runs first, so only users with a valid token can reach me().
 // The frontend uses this to check that a stored token is still valid.
 router.get('/me', authenticate, me);
+// security feature 2
+router.post('/logout', authenticate, logout);
 
 module.exports = router;
 

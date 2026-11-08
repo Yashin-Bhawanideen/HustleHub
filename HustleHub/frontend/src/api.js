@@ -70,6 +70,12 @@ export const api = {
   me: () =>
     request('/auth/me'),
 
+  // security feature 2
+  logout: () =>
+    request('/auth/logout', {
+      method: 'POST'
+    }),
+
   // Freelancers
   getFreelancerBookings: () =>
     request('/freelancer/bookings'),

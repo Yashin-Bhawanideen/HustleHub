@@ -15,7 +15,12 @@ const userSchema = new mongoose.Schema(
     },
     // select:false => the hash is NEVER returned by queries unless explicitly requested
     password: { type: String, required: true, select: false },
-    role: { type: String, enum: ROLES, required: true }
+    role: { type: String, enum: ROLES, required: true },
+    // security feature 1
+    failedLoginAttempts: { type: Number, default: 0, select: false },
+    lockUntil: { type: Date, default: null, select: false },
+    // security feature 2
+    tokenVersion: { type: Number, default: 0 }
   },
   { timestamps: true }
 );

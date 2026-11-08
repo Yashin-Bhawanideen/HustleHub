@@ -26,6 +26,11 @@ async function authenticate(req, res, next) {
       return res.status(401).json({ success: false, message: 'Invalid or expired token.' });
     }
 
+    // security feature 2
+    if ((payload.tv || 0) !== (user.tokenVersion || 0)) {
+      return res.status(401).json({ success: false, message: 'Session has ended. Please log in again.' });
+    }
+
     req.user = user;
     next();
   } catch (err) {
