@@ -95,6 +95,7 @@ class TaxCalc {
     // here we get the tax bracket based on the projected annual income 
     // and the sars tax brackets of the 2026 / 2027 financial year
     GetTaxBracket(annualIncome){
+        // South African Revenue Service (2026)
         // get tax bracket
         let bracketInfo = {};
 
@@ -154,3 +155,8 @@ class TaxCalc {
 
 
 module.exports = { getMonthlyIncomeArray, TaxCalc };
+
+
+
+//South African Revenue Service (2026). Rates of tax for individuals. [online] South African Revenue Service. Available at: 
+// https://www.sars.gov.za/tax-rates/income-tax/rates-of-tax-for-individuals/ [Accessed 7 Nov. 2026].
