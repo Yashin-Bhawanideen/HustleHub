@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend          # change if your backend is in a subfolder
+        working-directory: HustleHub/backend      # <-- your real backend path
     steps:
       - name: Check out the code
         uses: actions/checkout@v4
@@ -53,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: eslint-report
-          path: backend/eslint-report.html  # change if your backend is in a subfolder
+          path: HustleHub/backend/eslint-report.html   # <-- same path here
 
       - name: Show results and fail on errors
         run: npx eslint src
