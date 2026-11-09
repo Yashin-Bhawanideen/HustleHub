@@ -165,9 +165,9 @@ The backend source code in the pipeline was also examined by ESLint using the se
 # Screenshots
 ## Docker running sucessfully
 
-<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/19a5e757-bd5a-4157-b213-82dca7f161b5" />
+<img width="1662" height="400" alt="image" src="https://github.com/user-attachments/assets/19a5e757-bd5a-4157-b213-82dca7f161b5" />
 
-<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/21ca8c49-40ed-4780-99cc-a832bc5163c9" />
+<img width="1662" height="400" alt="image" src="https://github.com/user-attachments/assets/21ca8c49-40ed-4780-99cc-a832bc5163c9" />
 
 ## App
 ### Client login screen
