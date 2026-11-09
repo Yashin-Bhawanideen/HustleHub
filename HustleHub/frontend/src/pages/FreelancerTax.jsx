@@ -3,13 +3,22 @@ import { Link } from 'react-router-dom';
 import { api } from '../api.js';
 import { useAuth } from '../context/AuthContext.jsx';
 import Notifications from '../components/Notifications.jsx';
-
+/**
+ * FreelancerTax page
+ * Shows a freelancer their projected annual income, estimated tax
+ * (based on SARS tax brackets), projected net income, and a bar chart
+ * of accepted booking revenue for each month of the tax year.
+ */
 export default function FreelancerTax() {
+     // Tax summary and chart data returned from the API (null until loaded)
     const { user, logout } = useAuth();
+    // True while the tax data is still being fetched
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+     // Holds an error message if the request fails
     const [error, setError] = useState('');
 
+    // Runs once when the component mounts (empty dependency array)
     useEffect(() => {
         async function loadTaxData() {
             try {
@@ -25,6 +34,9 @@ export default function FreelancerTax() {
         loadTaxData();
     }, []);
 
+     // The highest monthly income, used to scale the bar heights in the chart.
+    // 1000 is included as a minimum so the chart still scales sensibly
+    // when income is low or zero (and avoids dividing by zero).
     const maxIncome = data?.chartData ? Math.max(...data.chartData.map(d => d.income), 1000) : 1000;
 
     return (
