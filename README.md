@@ -143,8 +143,14 @@ Each of the frontend and backend operates in a separate Docker container. The ba
 ## State analysis - Github tests
 
 ### CodeQL analysis
+
+<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/b0b02d42-8ead-4cfe-b550-e4d6f706a428" />
+
 As part of the CI process, CodeQL, GitHub's static analysis tool, analysed the project's JavaScript source. The scan performed on the most recent change ("Update auth.js," run #4), and all of its steps setting up the job, examining the code, launching CodeQL, and conducting the analysis completed successfully in roughly one minute and twenty seconds. CodeQL searches the code for security issues, such as injection vulnerabilities, unsafe user input usage, and insecure data handling, and it reports each discovery as an alert in the Security tab of the repository. Because CodeQL reports discoveries without failing the build, the job passes regardless of whether the scan produces [X alerts].
 ### ESLint security rules
+
+<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/d6f035e2-21ec-4645-9ec5-89e05db6aeab" />
+
 The backend source code in the pipeline was also examined by ESLint using the security plugin. Six issues were recorded on its initial run: two faults and four warnings. An unnecessary error variable in the authentication middleware and an unneeded mongoose import in the tax controller were the two code-quality mistakes. The pipeline passed in roughly 14 seconds after both were taken out. The detect-object-injection rule, which flags any location where an object is accessed with a variable because it can be dangerous when an attacker owns the variable, is the source of the four warnings. They can be found in the tax calculator, the tax controller, and the environment configuration (two). After review, all four were determined to be false positives since the keys are never derived from user input but rather from fixed lists that are written in the code or from computed month numbers. As proof, ESLint also stored its report in the pipeline run as a downloadable file.
 
 ## How security features address common threats
@@ -159,14 +165,44 @@ The backend source code in the pipeline was also examined by ESLint using the se
 # Screenshots
 ## Docker running sucessfully
 
+<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/19a5e757-bd5a-4157-b213-82dca7f161b5" />
+
+<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/21ca8c49-40ed-4780-99cc-a832bc5163c9" />
+
 ## App
 ### Client login screen
+
+<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/fe77e160-0b45-40ba-859e-377bad65aba7" />
+
 ### Freelancer login screen
+
+<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/21cb33be-bb28-4fc3-a1bf-f654fab1b30c" />
+
 ### Client Dashboard
+
+<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/c3f64022-3721-42eb-9da1-0aeb9bf18777" />
+
 ### Listing of all available gigs made by freelancers
+
+<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/2a15cfbf-540a-4c96-b788-6557d22aba13" />
+
 ### Client made a booking to "Jane", lists in My Bookings screen
+
+<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/070eae38-d18b-4668-8d09-654931df8d05" />
+
 ### freelancer dashboard
+
+<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/2d490620-ecb4-4827-9760-ed7ca169f6f9" />
+
 ### Notifictaion showing gig created in freelancer dashboard
+
+<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/dd60cb6f-d7a8-4335-9103-f9390ebddcb5" />
+
 ### Tax summary screen for freelancer
+
+<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/2b010e3e-5c89-4eee-a3ef-c442bfc7346a" />
+
 ### Incoming bookings screen for freelancer
+
+<img width="1662" height="632" alt="image" src="https://github.com/user-attachments/assets/0d78250f-7f9c-4135-ac97-65ac2a585ac7" />
 
